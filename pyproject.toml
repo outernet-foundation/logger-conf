@@ -15,7 +15,7 @@ otlp = [
 ]
 
 [dependency-groups]
-dev = ["basedpyright>=1.28.0", "logconf[otlp]", "pytest>=8.0.0", "ruff>=0.14.11"]
+dev = ["basedpyright>=1.39.10", "logconf[otlp]", "pytest>=8.0.0", "ruff>=0.14.11"]
 
 [build-system]
 requires = ["hatchling"]
