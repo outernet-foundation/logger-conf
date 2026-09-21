@@ -1,4 +1,4 @@
-# logconf
+# log-conf
 
 Opinionated stdlib-`logging` configuration for Python. One call — `configure_logging("my-service")` — stands up a coherent logging topology over the standard library `logging` module (it does *not* replace the log-call API; callers still write `logger.info(...)`). It decides where records go and how they're formatted:
 
@@ -18,7 +18,7 @@ uv sync --extra otlp   # add OTLP export support
 ## Usage
 
 ```python
-from logconf import configure_logging
+from log_conf import configure_logging
 from logging import getLogger
 
 configure_logging("my-service", log_file_path=Path("logs/my-service.jsonl"))
@@ -26,22 +26,19 @@ logger = getLogger(__name__)
 logger.info("started", extra={"port": 8080})
 ```
 
-OTLP export activates automatically when `OTEL_EXPORTER_OTLP_ENDPOINT` is set and `logconf[otlp]` is installed. Attribution (`service_namespace`, etc.) and uvicorn-logger wiring are optional kwargs; see `configure_logging`'s signature.
+OTLP export activates automatically when `OTEL_EXPORTER_OTLP_ENDPOINT` is set and `log-conf[otlp]` is installed. Attribution (`service_namespace`, etc.) and uvicorn-logger wiring are optional kwargs; see `configure_logging`'s signature.
 
 ## Consuming from another repo
 
-git-reference the package from your own `pyproject.toml`:
+Install from PyPI:
 
 ```toml
 [project]
-dependencies = ["logconf"]
-# for OTLP: dependencies = ["logconf[otlp]"]
-
-[tool.uv.sources]
-logconf = { git = "https://github.com/outernet-foundation/logconf.git", rev = "<pin-a-commit-sha>" }
+dependencies = ["log-conf>=0.1.0"]
+# for OTLP: dependencies = ["log-conf[otlp]>=0.1.0"]
 ```
 
-Then `from logconf import configure_logging` works from that repo.
+To test an unreleased change, pin the repo at a git ref in a scratch branch instead (`log-conf = { git = "https://github.com/outernet-foundation/logconf.git", rev = "<sha>" }` under `[tool.uv.sources]`) and drop the pin when the release lands.
 
 ## Development
 
