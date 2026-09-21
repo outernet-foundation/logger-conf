@@ -93,7 +93,7 @@ def configure_logging(
         otlp_module: ModuleType | None = _otlp
         if otlp_module is None:
             sys.stderr.write(
-                "OTEL_EXPORTER_OTLP_ENDPOINT is set but log-conf[otlp] is not installed; skipping OTLP export.\n"
+                "OTEL_EXPORTER_OTLP_ENDPOINT is set but logger-conf[otlp] is not installed; skipping OTLP export.\n"
             )
         else:
             resource = otlp_module.build_resource(service_name, service_namespace, instance_id)

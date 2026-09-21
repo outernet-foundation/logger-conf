@@ -1,9 +1,9 @@
 {
   "packages": [
     {
-      "name": "log-conf",
+      "name": "logger-conf",
       "path": ".",
-      "feeds": { "pypi": "log-conf" }
+      "feeds": { "pypi": "logger-conf" }
     }
   ],
   "ci_workflow": "ci.yml",
