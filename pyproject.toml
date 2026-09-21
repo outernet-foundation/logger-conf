@@ -1,6 +1,6 @@
 [project]
-name = "logconf"
-version = "0.1.0"
+name = "log-conf"
+version = "0.0.0.dev0"
 description = "Opinionated stdlib logging configuration: human stderr + JSON file + optional OTLP"
 requires-python = ">=3.13"
 dependencies = [
@@ -15,15 +15,15 @@ otlp = [
 ]
 
 [dependency-groups]
-dev = ["basedpyright>=1.39.10", "logconf[otlp]", "pytest>=8.0.0", "ruff>=0.14.11"]
+dev = ["basedpyright>=1.39.10", "log-conf[otlp]", "pytest>=8.0.0", "ruff>=0.14.11"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/logconf"]
-include = ["src/logconf/py.typed"]
+packages = ["src/log_conf"]
+include = ["src/log_conf/py.typed"]
 
 [tool.basedpyright]
 venvPath = "."

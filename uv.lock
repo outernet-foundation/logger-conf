@@ -80,8 +80,8 @@ wheels = [
 ]
 
 [[package]]
-name = "logconf"
-version = "0.1.0"
+name = "log-conf"
+version = "0.0.0.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "python-json-logger" },
@@ -97,7 +97,7 @@ otlp = [
 [package.dev-dependencies]
 dev = [
     { name = "basedpyright" },
-    { name = "logconf", extra = ["otlp"] },
+    { name = "log-conf", extra = ["otlp"] },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -114,7 +114,7 @@ provides-extras = ["otlp"]
 [package.metadata.requires-dev]
 dev = [
     { name = "basedpyright", specifier = ">=1.39.10" },
-    { name = "logconf", extras = ["otlp"] },
+    { name = "log-conf", extras = ["otlp"] },
     { name = "pytest", specifier = ">=8.0.0" },
     { name = "ruff", specifier = ">=0.14.11" },
 ]
