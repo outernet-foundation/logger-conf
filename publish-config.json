@@ -1,0 +1,11 @@
+{
+  "packages": [
+    {
+      "name": "log-conf",
+      "path": ".",
+      "feeds": { "pypi": "log-conf" }
+    }
+  ],
+  "ci_workflow": "ci.yml",
+  "mirror_prefix": "ghcr.io/outernet-foundation/mirror"
+}
