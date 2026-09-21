@@ -1,8 +1,8 @@
-# log-conf
+# logger-conf
 
 ## What this is
 
-`log-conf` (import `log_conf`) is an opinionated stdlib-`logging` configuration: one call (`configure_logging`) stands up a coherent logging topology over Python's standard library `logging` — it does **not** replace the log-call API (callers still write `logger.info(...)`). It decides where records go and how they're formatted.
+`logger-conf` (import `logger_conf`) is an opinionated stdlib-`logging` configuration: one call (`configure_logging`) stands up a coherent logging topology over Python's standard library `logging` — it does **not** replace the log-call API (callers still write `logger.info(...)`). It decides where records go and how they're formatted.
 
 ## The three-sink policy
 
@@ -32,8 +32,8 @@ Resource attributes (`service.name`, `service.namespace` when passed, `service.i
 
 ## Name
 
-The distribution and import renamed from `logconf`/`logconf` to `log-conf`/`log_conf` (2026-09-20): the bare PyPI name is owned by an unrelated same-purpose package, and `placeframe-common`'s published wheel required `logconf[otlp]` — resolving onto the foreign code. Both levels renamed together per the import==distribution-name convention; the GitHub repo keeps the `logconf` name (PyPI identity is what the rename fixes).
+The distribution and import renamed from `logconf`/`logconf` to `logger-conf`/`logger_conf` (2026-09-20): the bare PyPI name is owned by an unrelated same-purpose package, and `placeframe-common`'s published wheel required `logconf[otlp]` — resolving onto the foreign code. Both levels renamed together per the import==distribution-name convention; the GitHub repo renamed with it (`logconf` → `logger-conf`, redirects cover old links). An earlier same-day ruling of `log-conf` was superseded before anything published — no artifact ever carried it.
 
 ## Release flow
 
-Publishing rides `ci.yml`'s `publish` job on every push to `main` (gated on the check job): pubpkg — invoked uvx-isolated from a pinned git ref, never a project dependency — computes the plan from the tag ledger and path-diff, patches the version ephemerally, and publishes to PyPI under OIDC trusted publishing (pending publisher bound to `ci.yml`, no environment). The committed `pyproject.toml` version is permanently the `0.0.0.dev0` sentinel; the `log-conf-v*` tags are the version ledger (first release `0.1.0`, patch-auto thereafter). API-breaking changes ship with a manually bumped version — patch-auto assumes additive changes.
+Publishing rides `ci.yml`'s `publish` job on every push to `main` (gated on the check job): pubpkg — invoked uvx-isolated from a pinned git ref, never a project dependency — computes the plan from the tag ledger and path-diff, patches the version ephemerally, and publishes to PyPI under OIDC trusted publishing (pending publisher bound to `ci.yml`, no environment). The committed `pyproject.toml` version is permanently the `0.0.0.dev0` sentinel; the `logger-conf-v*` tags are the version ledger (first release `0.1.0`, patch-auto thereafter). API-breaking changes ship with a manually bumped version — patch-auto assumes additive changes.
