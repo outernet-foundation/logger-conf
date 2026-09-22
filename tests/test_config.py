@@ -2,7 +2,7 @@ import json
 import logging
 from pathlib import Path
 
-from logger_conf import HumanFormatter, configure_logging
+from logger_conf.config import HumanFormatter, configure_logging
 
 
 def _make_record(message: str, **extras: object) -> logging.LogRecord:
