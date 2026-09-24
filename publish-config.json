@@ -3,6 +3,7 @@
     {
       "name": "logger-conf",
       "path": ".",
+      "major_minor": "0.1",
       "feeds": { "pypi": "logger-conf" }
     }
   ],
