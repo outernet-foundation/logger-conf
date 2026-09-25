@@ -4,7 +4,9 @@
       "name": "logger-conf",
       "path": ".",
       "major_minor": "0.1",
-      "feeds": { "pypi": "logger-conf" }
+      "registries": {
+        "pypi": "logger-conf"
+      }
     }
   ],
   "ci_workflow": "ci.yml"
