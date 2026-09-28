@@ -1,13 +1,10 @@
 {
-  "packages": [
-    {
-      "name": "logger-conf",
+  "packages": {
+    "logger-conf": {
       "path": ".",
       "major_minor": "0.1",
-      "registries": {
-        "pypi": "logger-conf"
-      }
+      "registries": { "pypi": "logger-conf" }
     }
-  ],
+  },
   "ci_workflow": "ci.yml"
 }
