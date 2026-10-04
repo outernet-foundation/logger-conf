@@ -9,10 +9,8 @@
 `configure_logging` wires up to three sinks, and which sinks are active is deliberate:
 
 - **stderr stream, always, human-formatted** (`HumanFormatter`: `HH:MM:SS [level] msg key=value`). For the operator watching the terminal now.
-- **JSONL file, when `log_file_path` is passed.** Rotating (`RotatingFileHandler`). This is the **durable structured record** — `jq`-able, agent-tail-friendly. It is *always* JSON when it exists (never human text). The local file is the durable record of truth; OTLP (below) is a best-effort remote mirror, never a substitute for file structure. Reason: OTLP can drop records (batching, collector down, network); if structure lived only in OTLP and the file were human text, structured data would be lost on any OTLP hiccup.
+- **JSONL file, when `log_file_path` is passed.** Rotating (`RotatingFileHandler`). Always JSON when it exists, never human text — the local file is the durable structured record (`jq`-able, agent-tail-friendly); OTLP is a best-effort remote mirror, never a substitute for file structure, because OTLP can drop records (batching, collector down, network) and structure that lived only in OTLP would be lost on any hiccup.
 - **OTLP export, optional, when `OTEL_EXPORTER_OTLP_ENDPOINT` is set AND the `[otlp]` extra is installed.** Mirrors records to a collector (Loki/Grafana). Behind an optional extra so consumers that don't aggregate (CLI scripts) don't drag in `opentelemetry-sdk`.
-
-This policy supersedes the two originals it was unified from: the pulsar variant (JSON file + human stderr, no OTLP) and the placeframe variant (human stderr + OTLP, optional human file). The unification keeps pulsar's always-JSON-file strength and adds placeframe's OTLP/robustness — at the cost of reverting placeframe's file to JSON (acceptable: most placeframe services pass no `log_file_path`, so the blast radius is the few that do, which gain a durable structured record they previously lacked).
 
 ## OTLP optional-extra design
 
@@ -24,16 +22,8 @@ One core dependency: `python-json-logger` (stdlib has no JSON formatter; hand-ro
 
 ## Attribution
 
-Resource attributes (`service.name`, `service.namespace` when passed, `service.instance.id`, `service.version` from `SERVICE_VERSION`, `deployment.environment.name` from `DEPLOYMENT_ENVIRONMENT`, `container.name` from `HOSTNAME`) are attached to OTLP records. `service_namespace` is parameterized — each caller passes its own (pulsar→`"pulsar"`, placeframe→`"placeframe"`, etc.); the placeframe variant's hardcoded namespace became a parameter here.
-
-## Provenance
-
-`HumanFormatter` and `_STANDARD_LOG_RECORD_ATTRS` existed byte-identically in both pulsar's and placeframe's `common` packages; this is now their canonical home. See `design/workspace-redesign.md` in the pulsar repo and the `pylogconf`/`logconf` extraction discussion for the convergence rationale.
-
-## Name
-
-The distribution and import renamed from `logconf`/`logconf` to `logger-conf`/`logger_conf` (2026-09-20): the bare PyPI name is owned by an unrelated same-purpose package, and `placeframe-common`'s published wheel required `logconf[otlp]` — resolving onto the foreign code. Both levels renamed together per the import==distribution-name convention; the GitHub repo renamed with it (`logconf` → `logger-conf`, redirects cover old links). An earlier same-day ruling of `log-conf` was superseded before anything published — no artifact ever carried it.
+Resource attributes (`service.name`, `service.namespace` when passed, `service.instance.id`, `service.version` from `SERVICE_VERSION`, `deployment.environment.name` from `DEPLOYMENT_ENVIRONMENT`, `container.name` from `HOSTNAME`) are attached to OTLP records. `service_namespace` is parameterized — each caller passes its own.
 
 ## Release flow
 
-Publishing rides `ci-cd.yml`, which combines CI and release: `check` runs `preflight-python` from the python-devkit dev dependency then `publish-stable --dry-run` as its trailing step, and the publish jobs (`publish-stable`, `publish-dev`, `ensure-release-pr`) run release-devkit's verbs as inlined `uvx --from release-devkit==${{ env.RELEASE_DEVKIT_VERSION }}` steps, version-pinned in the workflow `env:` (see release-devkit's `AGENTS.md`), never a project dependency. The dev channel (`publish-dev` on `dev` push, an in-run job gated on `check`) ships immutable `-dev.<run-id>` prereleases; `ensure-release-pr` maintains the standing `dev` → `main` release-PR gate; `publish-stable` runs on `main` push under OIDC trusted publishing (publisher bound to `ci-cd.yml`, `release` environment). The committed `pyproject.toml` version is permanently the `0.0.0.dev0` sentinel; the `logger-conf-v*` tags are the version ledger (declared `major_minor` line in `release-devkit.yaml`, patch-auto within the line). API-breaking changes ship with a manually bumped `major_minor` — patch-auto assumes additive changes.
+release-devkit's `AGENTS.md` owns the three-workflow contract; this repo follows it unchanged. Repo-specific facts: release-devkit is never a project dependency, and API-breaking changes ship with a manually bumped `major_minor` (patch-auto assumes additive changes).
