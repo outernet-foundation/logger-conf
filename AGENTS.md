@@ -26,4 +26,4 @@ Resource attributes (`service.name`, `service.namespace` when passed, `service.i
 
 ## Release flow
 
-release-devkit's `AGENTS.md` owns the three-workflow contract; this repo follows it unchanged. Repo-specific facts: release-devkit is never a project dependency, and API-breaking changes ship with a manually bumped `major_minor` (patch-auto assumes additive changes).
+github-actions-toolkit's `AGENTS.md` owns the consumer workflow contract — this repo's `integrate.yml`/`merge-gate.yml`/`release.yml` are plain `uses:` calls at one pinned toolkit SHA plus the `scripts/preflight.py` sidecar — and this repo follows it unchanged. Repo-specific facts: the toolkit is never a project dependency, and API-breaking changes ship with a manually bumped `major_minor` (patch-auto assumes additive changes).

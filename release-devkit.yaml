@@ -1,7 +1,6 @@
-ci_workflow: release.yml
 packages:
   logger-conf:
     path: .
-    major_minor: "0.2"
-    registries:
-      pypi: logger-conf
+    major_minor: "0.3"
+    registry: pypi
+    identity: logger-conf
