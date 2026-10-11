@@ -23,7 +23,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/logger_conf"]
-include = ["src/logger_conf/py.typed"]
 
 [tool.basedpyright]
 venvPath = "."
